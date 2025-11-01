@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int duplicateCount,count=0,i=0;
+        while(i<nums.size()){
+            duplicateCount=i+1;
+            while(duplicateCount<nums.size()&&nums[i]==nums[duplicateCount]){
+                nums[duplicateCount++]=INT_MAX;
+                count++;
+            }
+            i=duplicateCount;
+        }
+        sort(nums.begin(),nums.end());
+        return nums.size()-count;
+    }
+};
