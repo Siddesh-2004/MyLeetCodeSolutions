@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        if(s.length()<=1)return false;
+        stack<char> Stack;
+        char closingBracket,openingBracket;
+        int i=0;
+        while(i<s.length()){
+            if(s[i]==')'||s[i]=='}'||s[i]==']'){
+                closingBracket=s[i];
+                switch(closingBracket){
+                    case ')':openingBracket='(';
+                                break;
+                    case '}':openingBracket='{';
+                                break;
+                    case ']':openingBracket='[';
+
+                }
+                if(!Stack.empty() && openingBracket==Stack.top())Stack.pop();
+                else return false;
+            }else{
+                Stack.push(s[i]);
+            }
+            i++;
+        }
+        if(Stack.size())
+        return false;
+        return true;
+    }
+};
