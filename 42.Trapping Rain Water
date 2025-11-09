@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int backTraverse(int end,vector<int> &height){
+        int start=height.size()-1,water=0;
+        int temp=start-1;
+        while(temp>end){
+            if(height[temp]>=height[start]){
+                start--;
+                temp--;
+                continue;
+            }
+            else{
+                while(temp>end && height[start]>height[temp]){
+                    water+=height[start]-height[temp];
+                    temp--;
+                }
+                start=temp;
+                temp=start-1;
+            }
+        }
+        return water;
+
+    }
+    int trap(vector<int>& height) {
+        int start=0,end,temp,water=0,maxAtEnd=INT_MIN,back;
+        while(start+1<height.size()-1 && height[start]<height[start+1]){
+            start++;
+        }
+        temp=end=start+1;
+        while(start<end){
+            while(end<height.size() && height[end]<height[start]){
+                end++;
+            }
+            if(end==height.size()){
+                
+              water+=backTraverse(start,height);
+              return water;
+            }
+            while(temp<end){
+                water+=height[start]-height[temp];
+                temp++;
+            }
+            start=end;
+            end=temp=start+1;
+            
+        }
+        return water;
+    }
+};
