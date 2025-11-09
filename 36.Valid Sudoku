@@ -1,0 +1,67 @@
+class Solution {
+public:
+    bool subBoxCheck(vector<vector<char>>& box) {
+        unordered_map<int, int> frequency;
+        frequency.clear();
+        for (int i = 0; i < box.size(); i++) {
+            for (int j = 0; j < box.size(); j++) {
+                if (box[i][j] == '.')
+                    continue;
+                frequency[box[i][j]]++;
+                if (frequency[box[i][j]] > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    vector<vector<char>> createBox(vector<vector<char>>& board, int rowStart,int colStart) {
+        vector<vector<char>> box(3, vector<char>(3, 0));
+        for (int i = rowStart, row = 0; i < rowStart + 3 && row < 3; i++,row++) {
+            for (int j = colStart, col = 0; j < colStart + 3 && col < 3; j++,col++) {
+                box[row][col] = board[i][j];
+            }
+        }
+        return box;
+    }
+    bool isValidSudoku(vector<vector<char>>& board) {
+        vector<vector<char>> box;
+        // rowise check
+        unordered_map<int, int> frequency;
+        for (int i = 0; i < board.size(); i++) {
+            frequency.clear();
+            for (int j = 0; j < board.size(); j++) {
+                if (board[i][j] == '.')
+                    continue;
+                frequency[board[i][j]]++;
+                if (frequency[board[i][j]] > 1) {
+                    return false;
+                }
+            }
+        }
+        // columnwise check
+        for (int i = 0; i < board.size(); i++) {
+            frequency.clear();
+            for (int j = 0; j < board.size(); j++) {
+                if (board[j][i] == '.')
+                    continue;
+                frequency[board[j][i]]++;
+                if (frequency[board[j][i]] == 2) {
+                    return false;
+                }
+            }
+        }
+        // box check
+        int rowStart, colStart;
+        for (int i = 0; i < 9; i = i + 3) {
+            box.clear();
+            for (int j = 0; j < 9; j = j + 3) {
+                box = createBox(board, i, j);
+                if (!subBoxCheck(box)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
