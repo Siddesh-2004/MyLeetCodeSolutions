@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<string> sortStrings(vector<string> strs) {
+        for (int i = 0; i < strs.size(); i++) {
+            sort(strs[i].begin(), strs[i].end());
+        }
+        return strs;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        int flag;
+        vector<string> sortedStrings{sortStrings(strs)};
+        vector<string> anagrams;
+        vector<vector<string>> groupAnagrams;
+        for (int i = 0; i < sortedStrings.size(); i++) {
+            anagrams.clear();
+            anagrams.push_back(strs[i]);
+            for (int j = i + 1; j < sortedStrings.size(); j++) {
+                flag = 1;
+                if (sortedStrings[i].length() != sortedStrings[j].length()) {
+                    flag = 0;
+                    continue;
+                }
+
+                for (int k = 0; k < sortedStrings[j].length(); k++) {
+                    if (sortedStrings[i][k] != sortedStrings[j][k]) {
+                        flag = 0;
+                        break;
+                    }
+                }
+
+                if (flag) {
+                    anagrams.push_back(strs[j]);
+                    strs.erase(strs.begin() + j);
+                    sortedStrings.erase(sortedStrings.begin() + j);
+                    j--;
+                }
+            }
+            groupAnagrams.push_back(anagrams);
+        }
+        return groupAnagrams;
+    }
+};
